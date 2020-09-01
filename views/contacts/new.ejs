@@ -7,7 +7,18 @@
     <%- include('../partials/nav') %>
     <div class="contact contact-new">
         <h2>New</h2>
-        <p class="pname">nametest123</p>
+        <div class="pname">
+            <div>nametest123</div>
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+            </ul>
+        </div>
+        <div class="change_string"></div>
+        <div class="change_html"></div>
         <form class="contact-form" action="/contacts" method="post">
             <div>
                 <label for="name">Name</label>
@@ -27,9 +38,30 @@
             </div>
             <script>
                 $(document).ready(function () {
+                    function htmlencode(str) {
+                        return str.replace(/[&<>"']/g, function ($0) {
+                            return "&" + { "&": "amp", "<": "lt", ">": "gt", '"': "quot", "'": "#39" }[$0] + ";";
+                        });
+                    }
+                    function escapeParsr(a) {
+                        var b = '';
+
+                        b = a.replace(/&lt;/g, '<');
+                        b = b.replace(/&gt;/g, '>');
+                        b = b.replace(/&nbsp;/g, ' ');
+                        b = b.replace(/&amp;/g, '&');
+                        b = b.replace(/&quot;/g, '"');
+
+                        return b;
+                    }
                         $('.btn_submit').click(function () {
-                            $('#name').val($('.pname').text());
-                            $(".contact-form").submit();
+                           var c = htmlencode($('.pname').html());
+                           $('.change_string').append(c);
+                           var d =  escapeParsr(c);
+                            $('.change_html').append(d);
+                           
+                            // $('#name').val(String($('.pname').html()));
+                            //$(".contact-form").submit();
                         });
                     })
             </script>
