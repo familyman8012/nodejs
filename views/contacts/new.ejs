@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+</head>
+<body>
+    <%- include('../partials/nav') %>
+    <div class="contact contact-new">
+        <h2>New</h2>
+        <p class="pname">nametest123</p>
+        <form class="contact-form" action="/contacts" method="post">
+            <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="">
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" value="">
+            </div>
+            <div>
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" name="phone" value="">
+            </div>
+            <div>
+                <button type="submit">Submit</button>
+                <span class="btn_submit">test_submit</span>
+            </div>
+            <script>
+                $(document).ready(function () {
+                        $('.btn_submit').click(function () {
+                            $('#name').val($('.pname').text());
+                            $(".contact-form").submit();
+                        });
+                    })
+            </script>
+        </form>
+    </div>
+</body>
+
+</html>
