@@ -35,62 +35,69 @@ app.use(express.static(__dirname+'/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
+
+app.use('/', require('./routes/home'));
+app.use('/contacts', require('./routes/contacts'));
  
-var contactSchema = mongoose.Schema({
-    name:{type:String, required:true, unique:true},
-    email:{type:String},
-    phone:{type:String}
-});
 
-var Contact = mongoose.model("contact", contactSchema);
+// 마지막 lesson 에서 module분리시, models Contact.js 로 이동.
+// var contactSchema = mongoose.Schema({
+//     name:{type:String, required:true, unique:true},
+//     email:{type:String},
+//     phone:{type:String}
+// });
 
-app.get('/', function(req,res){
-    res.redirect('/contacts');
-});
-app.get('/contacts', function(req,res){
-    Contact.find({}, function(err, contacts){
-        if (err) return res.json(err);
-        res.render('contacts/index', {contacts:contacts});
-    })
-});
-app.get("/contacts/new", function (req, res) {
-  res.render("contacts/new");
-});
-app.post('/contacts', function(req,res){
-    Contact.create(req.body, function(err, contact){
-        if(err) return res.json(err);
-        res.redirect('/contacts')
-    })
-})
+// var Contact = mongoose.model("contact", contactSchema);
 
-app.get('/contacts/:id', function (req, res) {
-    console.log('a');
-    Contact.findOne({ _id: req.params.id }, function (err, contact) {
-        if (err) return res.json(err);
-        res.render('contacts/show', { contact: contact });
-    });
-});
+// app.get('/', function(req,res){
+//     res.redirect('/contacts');
+// });
+// app.get('/contacts', function(req,res){
+//     Contact.find({}, function(err, contacts){
+//         if (err) return res.json(err);
+//         res.render('contacts/index', {contacts:contacts});
+//     })
+// });
+// app.get("/contacts/new", function (req, res) {
+//   res.render("contacts/new");
+// });
+// app.post('/contacts', function(req,res){
+//     Contact.create(req.body, function(err, contact){
+//         if(err) return res.json(err);
+//         res.redirect('/contacts')
+//     })
+// })
 
-app.get('/contacts/:id/edit', function (req, res) {
-    Contact.findOne({ _id: req.params.id }, function (err, contact) {
-        if (err) return res.json(err);
-        res.render('contacts/edit', { contact: contact });
-    });
-});
 
-app.put('/contacts/:id', function(req, res){
-    Contact.findOneAndUpdate({ _id: req.params.id}, req.body, function(err, contact){
-        if (err) return res.json(err);
-        res.redirect('/contacts/' + req.params.id);        
-    })
-})
+// 마지막 lesson 에서 module분리시, routes contacts.js 로 이동.
+// app.get('/contacts/:id', function (req, res) {
+//     console.log('a');
+//     Contact.findOne({ _id: req.params.id }, function (err, contact) {
+//         if (err) return res.json(err);
+//         res.render('contacts/show', { contact: contact });
+//     });
+// });
 
-app.delete('/contacts/:id', function(req, res){
-    Contact.deleteOne({_id:req.params.id}, function(err, contact){
-        if (err) return res.json(err);
-        res.redirect('/contacts');
-    })
-})
+// app.get('/contacts/:id/edit', function (req, res) {
+//     Contact.findOne({ _id: req.params.id }, function (err, contact) {
+//         if (err) return res.json(err);
+//         res.render('contacts/edit', { contact: contact });
+//     });
+// });
+
+// app.put('/contacts/:id', function(req, res){
+//     Contact.findOneAndUpdate({ _id: req.params.id}, req.body, function(err, contact){
+//         if (err) return res.json(err);
+//         res.redirect('/contacts/' + req.params.id);        
+//     })
+// })
+
+// app.delete('/contacts/:id', function(req, res){
+//     Contact.deleteOne({_id:req.params.id}, function(err, contact){
+//         if (err) return res.json(err);
+//         res.redirect('/contacts');
+//     })
+// })
 
 // lesson2
 
